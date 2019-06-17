@@ -32,18 +32,6 @@ int is_whitespace(char input) {
   }
 }
 
-// char otherchars[1] = {'_'};
-// //, 'ä', 'Ä', 'ö', 'Ö', 'ü', 'Ü', 'ß'}; // probably should not be used
-
-// int isotherchar(char input) {
-//   for (int i = 0; i < 1; i++) {
-//     if (input == otherchars[i]) {
-//       return 1;
-//     }
-//   }
-//   return 0;
-// }
-
 // tokenizer (lexer?)
 struct token_list_wrap* scan(char* input) {
   int length = get_len(input) + 1;
@@ -103,27 +91,22 @@ int is_type(char* val) {
       return 1;
     }
   }
-  // return 0;
+  return 0;
 }
 
 // TODO
 void parsing_begin(struct token* tokens, int lenght) {
-  // for (int i = 0; i < lenght; i++) {
   if (is_type(tokens->string)) {
     // call function for var or func
-    printf("lol\n");
+    printf("todo func handler\n");
   }
-  // }
 }
-
-// #define LR 100000 // loops
-// found 35mio tokens in 1.9sec out of 5mio lines of c code (LR 25000)
 
 int main() {
   FILE* infile;
   char* buffer;
   long numbytes;
-  infile = fopen("pt1.saf", "r");
+  infile = fopen("main.c", "r");
   fseek(infile, 0L, SEEK_END);
   numbytes = ftell(infile);
   fseek(infile, 0L, SEEK_SET);
@@ -132,19 +115,17 @@ int main() {
   fclose(infile);
 
   struct token_list_wrap* res;
-  // for (int i = 0; i < LR; i++) {
   res = scan(buffer);
-  // }
 
   printf("total: %i tokens\n", res->length);
-  // char* print_str = malloc(sizeof(char) * 50);
-  // for (int i = 0; i < res->length; i++) {
-  //   strncpy(print_str, (res->token_ptr + i)->string, (res->token_ptr + i)->length);
-  //   print_str[(res->token_ptr + i)->length] = '\0';
-  //   // printf("len: %i\n", (res->token_ptr + i)->length);
-  //   printf("|%s|\n", print_str);
-  // }
-  // // printf("\n");
+  char* print_str = malloc(sizeof(char) * 50);
+  for (int i = 0; i < res->length; i++) {
+    strncpy(print_str, (res->token_ptr + i)->string, (res->token_ptr + i)->length);
+    print_str[(res->token_ptr + i)->length] = '\0';
+    printf("len: %i\n", (res->token_ptr + i)->length);
+    printf("|%s|\n", print_str);
+  }
+  printf("\n");
 
   parsing_begin(res->token_ptr, res->length);
 
